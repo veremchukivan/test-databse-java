@@ -11,7 +11,7 @@ public class Main {
     public static void main(String[] args) {
         SessionFactory sf = HibernateUtil.getSesseionFactory();
         try (Scanner in = new Scanner(System.in)) {
-            UserDto userDao = new UserDto(sf);
+            UserDto userDto = new UserDto(sf);
 
             while (true) {
                 System.out.println("Enter an option (1: Get by id, 2: Get all users, 3: Update, 4: Add, 5: Delete q: Quit): ");
@@ -21,7 +21,7 @@ public class Main {
                     case "1":
                         System.out.println("Enter user ID to get: ");
                         int id = Integer.parseInt(in.nextLine());
-                        Optional<User> retrievedUserOptional = userDao.get(id);
+                        Optional<User> retrievedUserOptional = userDto.get(id);
                         if (retrievedUserOptional.isPresent()) {
                             User retrievedUser = retrievedUserOptional.get();
                             System.out.println("Retrieved User: " + retrievedUser);
@@ -30,7 +30,7 @@ public class Main {
                         }
                         break;
                     case "2":
-                        List<User> allUsers = userDao.getAll();
+                        List<User> allUsers = userDto.getAll();
                         System.out.println("All Users:");
                         for (User user : allUsers) {
                             System.out.println(user);
@@ -40,7 +40,7 @@ public class Main {
                         System.out.println("Enter user ID to update: ");
                         int updateUserId = Integer.parseInt(in.nextLine());
 
-                        Optional<User> updateUserOptional = userDao.get(updateUserId);
+                        Optional<User> updateUserOptional = userDto.get(updateUserId);
                         if (updateUserOptional.isPresent()) {
                             User updateUser = updateUserOptional.get();
 
@@ -59,7 +59,7 @@ public class Main {
                             System.out.print("Enter updated password: ");
                             updateUser.setPassword(in.nextLine());
 
-                            userDao.update(updateUser);
+                            userDto.update(updateUser);
 
                             System.out.println("User updated successfully: " + updateUser);
                         } else {
@@ -84,7 +84,7 @@ public class Main {
                         System.out.print("Enter password: ");
                         user.setPassword(in.nextLine());
 
-                        userDao.save(user);
+                        userDto.save(user);
 
                         System.out.println("User created successfully: " + user);
                         break;
@@ -92,11 +92,11 @@ public class Main {
                         System.out.println("Enter user ID to delete: ");
                         int deleteUserId = Integer.parseInt(in.nextLine());
 
-                        Optional<User> deleteUserOptional = userDao.get(deleteUserId);
+                        Optional<User> deleteUserOptional = userDto.get(deleteUserId);
                         if (deleteUserOptional.isPresent()) {
                             User deleteUser = deleteUserOptional.get();
 
-                            userDao.delete(deleteUser);
+                            userDto.delete(deleteUser);
 
                             System.out.println("User deleted successfully: " + deleteUser);
                         } else {
